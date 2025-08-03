@@ -3,15 +3,23 @@
 # **TechXpress**
 #### Empowering Seamless Shopping Experiences, Redefining E-Commerce.
 
-
-
+<p align="center">
+  <img src="https://img.shields.io/github/last-commit/Kirollos-Nedaa/CAI2_SWD5_S10_Team3?style=flat-square">
+  <img src="https://img.shields.io/badge/C%23-95.7%25-blue?style=flat-square">
+  <img src="https://img.shields.io/github/languages/count/Kirollos-Nedaa/CAI2_SWD5_S10_Team3?style=flat-square">
+</p>
 
 ### **Built with the tools and technologies**
 <p align="center">
     <img src="https://img.shields.io/badge/-Expo-000020?logo=expo&logoColor=white&style=flat-square">
     <img src="https://img.shields.io/badge/-React%20Native-61DAFB?logo=react&logoColor=white&style=flat-square">
+    <img src="https://img.shields.io/badge/-ASP.NET%20MVC-5C2D91?logo=dotnet&logoColor=white&style=flat-square">
+    <img src="https://img.shields.io/badge/-Entity%20Framework-512BD4?logo=dotnet&logoColor=white&style=flat-square">
+    <img src="https://img.shields.io/badge/-SQL%20Server-CC2927?logo=microsoftsqlserver&logoColor=white&style=flat-square">
     <img src="https://img.shields.io/badge/-TailwindCSS-38B2AC?logo=tailwindcss&logoColor=white&style=flat-square">
     <img src="https://img.shields.io/badge/-JavaScript-F7DF1E?logo=javascript&logoColor=black&style=flat-square">
+    <img src="https://img.shields.io/badge/-Razor%20Pages-512BD4?logo=dotnet&logoColor=white&style=flat-square">
+    <img src="https://img.shields.io/badge/-C%23-239120?logo=c-sharp&logoColor=white&style=flat-square">
 </div>
 
 ---
@@ -44,6 +52,7 @@
 
 ### 🗂 **Project Structure**
 ```bash
+```
 TechXpress/
 │
 └── TechXpress.App/             # React Native mobile app (Expo)
@@ -55,9 +64,10 @@ TechXpress/
     ├── App.js                  # App entry point
     └── app.json                # Expo configuration
 ```
+```
 
 ---
-### **Deployment Guide**
+### **Deployment-guide**
 Follow these steps to run TechXpress (React Native + Expo) locally:
 
 ### **Prerequisites**
