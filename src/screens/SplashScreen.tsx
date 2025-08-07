@@ -5,11 +5,11 @@ import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 type RootStackParamList = {
-  Home: undefined;
+  MainApp: undefined;
   // Add other routes if needed
 };
 
-type SplashScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
+type SplashScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'MainApp'>;
 
 const SplashScreen = () => {
   const navigation = useNavigation<SplashScreenNavigationProp>();
@@ -23,9 +23,9 @@ const SplashScreen = () => {
       useNativeDriver: true,
     }).start();
 
-    // Navigate to Home after 2.5 seconds
+    // Navigate to MainApp after 2.5 seconds
     const timeout = setTimeout(() => {
-      navigation.navigate('Home');
+      navigation.navigate('MainApp');
     }, 2500);
 
     return () => clearTimeout(timeout);
