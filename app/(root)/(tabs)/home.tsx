@@ -19,6 +19,9 @@ const Home = () => {
       <Link href={"/welcome"} className="text-secondary-500 mt-4">
         Go to Welcome Page
       </Link>
+      <Link href={"/(auth)/sign-in"} className="text-secondary-500 mt-4">
+        Go to Sign In Page
+      </Link>
       <View className="mt-8" style={{ width: selectorWidth }}>
         <ThemeSelector />
       </View>

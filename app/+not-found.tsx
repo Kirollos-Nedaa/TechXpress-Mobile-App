@@ -1,4 +1,4 @@
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import {
   Image,
   View,
@@ -49,14 +49,15 @@ export default function NotFoundScreen() {
           </TouchableOpacity>
         </Link>
 
-        <Link href="/" asChild>
-          <TouchableOpacity className="flex-row items-center px-6 py-2 border-2 border-primary-100 dark:border-primary-800 rounded-sm">
-            <HouseIcon size={20} color="#FA8232" />
-            <Text className="text-sm font-PSBold uppercase text-primary-500 ml-2">
-              Go Home
-            </Text>
-          </TouchableOpacity>
-        </Link>
+        <TouchableOpacity
+          onPress={() => router.replace("/(root)/(tabs)/home")}
+          className="flex-row items-center px-6 py-2 border-2 border-primary-100 dark:border-primary-800 rounded-sm"
+        >
+          <HouseIcon size={20} color="#FA8232" />
+          <Text className="text-sm font-PSBold uppercase text-primary-500 ml-2">
+            Go Home
+          </Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
