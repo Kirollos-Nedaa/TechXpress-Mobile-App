@@ -1,7 +1,16 @@
-import { FlatList, Text, View } from "react-native";
-import { useEffect, useState } from "react";
+import { FlatList, Text, TouchableOpacity, View } from "react-native";
+import { useContext, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { ArrowRightIcon, EyeIcon, EyeSlashIcon } from "phosphor-react-native";
+import {
+  ArrowRightIcon,
+  EyeIcon,
+  EyeSlashIcon,
+  CaretLeftIcon,
+  EnvelopeSimpleIcon,
+  PhoneIcon,
+  CalendarDotsIcon,
+  IdentificationCardIcon,
+} from "phosphor-react-native";
 import InputField from "@/components/ui/InputField";
 import CustomButton from "@/components/ui/customButton";
 import OAuth from "@/components/ui/OAuth";
@@ -9,7 +18,7 @@ import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
 import * as SecureStore from "expo-secure-store";
 import API, { saveToken } from "@/services/api";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import DropdownField from "@/components/ui/DropdownField";
 import DateOfBirthPicker from "@/components/ui/CalendarInputField";
 
@@ -106,6 +115,7 @@ const SignUp = () => {
       key="fullName"
       label="Full Name"
       placeholder="Enter your full name"
+      icon={IdentificationCardIcon}
       keyboardType="default"
       autoCapitalize="none"
       autoComplete="name"
@@ -116,6 +126,7 @@ const SignUp = () => {
       key="email"
       label="Email"
       placeholder="Enter your email"
+      icon={EnvelopeSimpleIcon}
       keyboardType="email-address"
       autoCapitalize="none"
       autoComplete="email"
@@ -126,6 +137,7 @@ const SignUp = () => {
       key="phone"
       label="Phone Number"
       placeholder="Enter your phone number"
+      icon={PhoneIcon}
       keyboardType="phone-pad"
       autoComplete="tel"
       value={form.phoneNumber}
@@ -140,6 +152,7 @@ const SignUp = () => {
       placeholder="Choose gender"
     />,
     <DateOfBirthPicker
+      icon={CalendarDotsIcon}
       key="dob"
       value={dob}
       onChange={(date) => {
@@ -147,6 +160,7 @@ const SignUp = () => {
         updateForm("dob", date ? formatDate(date) : "");
       }}
       label="Date of Birth"
+      placeHolder="Select your date of birth"
     />,
     <InputField
       key="password"
@@ -186,12 +200,12 @@ const SignUp = () => {
       onPressApple={handelAppleSignUp}
       onPressBiometric={handelBiometricSignUp}
     />,
-    <View key="signinLink" className="flex flex-row justify-center mt-3">
+    <View key="signinLink" className="flex flex-row justify-center mt-3 mb-12">
       <Text className="text-gray-500 dark:text-gray-400 font-PSRegular">
         Already have an account?
       </Text>
       <Link
-        href={"/(auth)/sign-in"}
+        href={"/(root)/(tabs)/account/sign-in"}
         className="text-secondary-500 font-PSBold ml-2"
       >
         Sign In
@@ -200,17 +214,21 @@ const SignUp = () => {
   ];
 
   return (
-    <SafeAreaView className="flex-1 bg-white dark:bg-gray-900">
+    <SafeAreaView className="bg-white dark:bg-gray-900 h-screen">
       <FlatList
         contentContainerStyle={{ paddingHorizontal: 24, paddingVertical: 24 }}
         data={formFields}
         renderItem={({ item }) => <View className="mb-1">{item}</View>}
         keyExtractor={(_, index) => index.toString()}
         ListHeaderComponent={
-          <View className="items-center mb-12">
-            <Text className="text-4xl font-PSBold text-gray-800 dark:text-gray-200 mt-6">
+          <View className="flex-row items-center justify-between mb-12">
+            <TouchableOpacity onPress={() => router.back()}>
+              <CaretLeftIcon size={28} color="#FFF" />
+            </TouchableOpacity>
+            <Text className="text-4xl font-PSBold text-gray-800 dark:text-gray-200">
               Create Account
             </Text>
+            <View className="w-auto" />
           </View>
         }
         showsVerticalScrollIndicator={false}

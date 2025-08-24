@@ -1,70 +1,50 @@
-import React, { useContext, useRef, useState } from "react";
-import {
-  Pressable,
-  Text,
-  View,
-  LayoutChangeEvent,
-  Animated,
-} from "react-native";
+import React, { useContext } from "react";
+import { Pressable, Text, View } from "react-native";
 import { ThemeContext } from "@/context/themeContext";
+import { SunIcon, MoonIcon, InfinityIconIcon } from "phosphor-react-native"; // Example icons
 
 const themes = [
-  { label: "Auto", value: "auto" },
-  { label: "Light", value: "light" },
-  { label: "Dark", value: "dark" },
+  { label: "Auto", value: "auto", icon: InfinityIconIcon },
+  { label: "Light", value: "light", icon: SunIcon },
+  { label: "Dark", value: "dark", icon: MoonIcon },
 ];
 
 export default function ThemeSelector() {
-  const { themeMode, setThemeMode } = useContext(ThemeContext);
-  const [optionWidth, setOptionWidth] = useState(0);
-  const bubbleX = useRef(new Animated.Value(0)).current;
-
-  const handleLayout = (e: LayoutChangeEvent, index: number) => {
-    const { width } = e.nativeEvent.layout;
-    setOptionWidth(width);
-    if (themes[index].value === themeMode) {
-      bubbleX.setValue(width * index);
-    }
-  };
-
-  const handlePress = (value: string, index: number) => {
-    setThemeMode(value as any);
-    Animated.spring(bubbleX, {
-      toValue: optionWidth * index,
-      useNativeDriver: true,
-      damping: 15,
-    }).start();
-  };
+  const { isDark, themeMode, setThemeMode } = useContext(ThemeContext);
 
   return (
-    <View className="relative flex-row rounded-xl border border-gray-300 dark:border-gray-600 overflow-hidden bg-gray-100 dark:bg-gray-800">
-      {/* Active bubble */}
-      <Animated.View
-        className="absolute top-0 bottom-0 bg-white dark:bg-gray-700 rounded-xl shadow-md"
-        style={{
-          width: optionWidth,
-          transform: [{ translateX: bubbleX }],
-        }}
-      />
-
-      {themes.map((theme, index) => {
+    <View>
+      {themes.map((theme) => {
         const isActive = themeMode === theme.value;
+        const ThemeIcon = theme.icon; // get the icon component
+
         return (
           <Pressable
             key={theme.value}
-            onLayout={(e) => handleLayout(e, index)}
-            onPress={() => handlePress(theme.value, index)}
-            className="flex-1 py-2 items-center"
+            onPress={() => setThemeMode(theme.value as any)}
+            className="flex-row items-center justify-between py-2"
           >
-            <Text
-              className={`font-medium ${
+            <View className="flex-row items-center space-x-3">
+              <ThemeIcon
+                size={20}
+                color={isDark ? "#FFF" : "#000"}
+                style={{ marginRight: 8 }}
+              />
+              <Text className="text-lg font-PSSemiB text-gray-900 dark:text-gray-100">
+                {theme.label}
+              </Text>
+            </View>
+            <View
+              className={`w-7 h-7 rounded-full border-2 items-center justify-center ${
                 isActive
-                  ? "text-gray-800 dark:text-gray-100"
-                  : "text-gray-500 dark:text-gray-400"
+                  ? "border-primary-500"
+                  : "border-gray-300 dark:border-gray-600"
               }`}
             >
-              {theme.label}
-            </Text>
+              {isActive && (
+                <View className="w-3 h-3 rounded-full bg-primary-500" />
+              )}
+            </View>
           </Pressable>
         );
       })}

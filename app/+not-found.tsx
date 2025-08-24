@@ -40,14 +40,15 @@ export default function NotFoundScreen() {
       </Text>
 
       <View className="flex-row flex-wrap items-center justify-center gap-4">
-        <Link href="/" asChild>
-          <TouchableOpacity className="flex-row items-center px-6 py-2 bg-primary-500 rounded-sm">
-            <ArrowLeftIcon size={20} color="white" />
-            <Text className="text-sm font-PSBold uppercase text-white ml-2">
-              Go Back
-            </Text>
-          </TouchableOpacity>
-        </Link>
+        <TouchableOpacity
+          onPress={() => router.back()}
+          className="flex-row items-center px-6 py-2 bg-primary-500 rounded-sm"
+        >
+          <ArrowLeftIcon size={20} color="white" />
+          <Text className="text-sm font-PSBold uppercase text-white ml-2">
+            Go Back
+          </Text>
+        </TouchableOpacity>
 
         <TouchableOpacity
           onPress={() => router.replace("/(root)/(tabs)/home")}

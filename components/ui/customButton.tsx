@@ -11,6 +11,7 @@ const CustomButton = ({
   IconRight,
   ClassName = "",
   IconName,
+  IconWeight = "regular",
   IconDarkMode = false,
   IconSize = 20,
   LeftStyleIcon = false,
@@ -30,6 +31,8 @@ const CustomButton = ({
         return "bg-warning-500";
       case "danger":
         return "bg-danger-500";
+      case "default":
+        return "bg-white dark:bg-gray-900";
       default:
         return "bg-transparent border border-gray-200 dark:border-gray-600";
     }
@@ -46,6 +49,7 @@ const CustomButton = ({
           color={IconDarkMode ? (isDark ? "#FFF" : "#000") : "#FFF"}
           name={`${IconName}`}
           className={LeftStyleIcon ? "absolute left-5" : ""}
+          weight={`${IconWeight}`}
         />
       );
     }

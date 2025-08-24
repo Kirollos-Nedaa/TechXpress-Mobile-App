@@ -8,7 +8,7 @@ import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
 import * as SecureStore from "expo-secure-store";
 import API, { saveToken } from "@/services/api";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -34,6 +34,8 @@ const SignIn = () => {
 
       await saveToken(res.data.token);
       await SecureStore.setItemAsync("refreshToken", res.data.refreshToken);
+      await SecureStore.setItemAsync("user", JSON.stringify(res.data.user));
+      router.replace("/(root)/(tabs)/account");
 
       console.log("✅ Login successful:", res.data.user);
     } catch (err: any) {
@@ -138,7 +140,7 @@ const SignIn = () => {
         Don&apos;t have an account?
       </Text>
       <Link
-        href={"/(auth)/sign-up"}
+        href={"/(root)/(tabs)/account/sign-up"}
         className="text-secondary-500 font-PSBold ml-2"
       >
         Sign Up

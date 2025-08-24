@@ -62,7 +62,7 @@ const DropdownField = ({
             className={`flex-row justify-between items-center 
                     bg-white dark:bg-gray-800 border 
                     border-gray-200 dark:border-gray-600 
-            ${visible ? "rounded-t-sm rounded-b-none" : "rounded-sm"} p-3 ${containerStyle}`}
+            ${visible ? "rounded-t-sm rounded-b-none" : "rounded-sm"} p-3 py-2 ${containerStyle}`}
           >
             <Text
               className={`font-PSSemiB ${
