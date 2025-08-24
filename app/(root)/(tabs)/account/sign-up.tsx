@@ -1,5 +1,5 @@
-import { FlatList, Text, TouchableOpacity, View } from "react-native";
-import { useContext, useEffect, useState } from "react";
+import { FlatList, Keyboard, Text, TouchableOpacity, View } from "react-native";
+import { useContext, useEffect, useRef, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   ArrowRightIcon,
@@ -37,6 +37,12 @@ const SignUp = () => {
 
   const [loading, setLoading] = useState(false);
   const [dob, setDob] = useState<Date | null>(null);
+
+  const fullNameRef = useRef(null);
+  const emailRef = useRef(null);
+  const phoneRef = useRef(null);
+  const passwordRef = useRef(null);
+  const confirmPasswordRef = useRef(null);
 
   const updateForm = (field: string, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -113,35 +119,44 @@ const SignUp = () => {
   const formFields = [
     <InputField
       key="fullName"
+      ref={fullNameRef}
       label="Full Name"
       placeholder="Enter your full name"
-      icon={IdentificationCardIcon}
-      keyboardType="default"
-      autoCapitalize="none"
       autoComplete="name"
+      autoCapitalize="words"
+      textContentType="name"
+      icon={IdentificationCardIcon}
       value={form.fullName}
       onChangeText={(value) => updateForm("fullName", value)}
+      returnKeyType="next"
+      onSubmitEditing={() => emailRef.current?.focus()}
     />,
     <InputField
       key="email"
+      ref={emailRef}
       label="Email"
       placeholder="Enter your email"
+      autoComplete="new-password"
+      autoCapitalize="none"
+      textContentType="newPassword"
       icon={EnvelopeSimpleIcon}
       keyboardType="email-address"
-      autoCapitalize="none"
-      autoComplete="email"
       value={form.email}
       onChangeText={(value) => updateForm("email", value)}
+      returnKeyType="next"
+      onSubmitEditing={() => phoneRef.current?.focus()}
     />,
     <InputField
       key="phone"
+      ref={phoneRef}
       label="Phone Number"
       placeholder="Enter your phone number"
       icon={PhoneIcon}
       keyboardType="phone-pad"
-      autoComplete="tel"
       value={form.phoneNumber}
       onChangeText={(value) => updateForm("phoneNumber", value)}
+      returnKeyType="next"
+      onSubmitEditing={() => passwordRef.current?.focus()}
     />,
     <DropdownField
       key="gender"
@@ -152,8 +167,8 @@ const SignUp = () => {
       placeholder="Choose gender"
     />,
     <DateOfBirthPicker
-      icon={CalendarDotsIcon}
       key="dob"
+      icon={CalendarDotsIcon}
       value={dob}
       onChange={(date) => {
         setDob(date);
@@ -164,25 +179,38 @@ const SignUp = () => {
     />,
     <InputField
       key="password"
+      ref={passwordRef}
       label="Password"
       placeholder="Enter your password"
+      autoComplete="new-password"
+      autoCapitalize="none"
+      textContentType="newPassword"
       secureTextEntry
-      autoComplete="password"
       icon={EyeIcon}
       altIcon={EyeSlashIcon}
       value={form.password}
       onChangeText={(value) => updateForm("password", value)}
+      returnKeyType="next"
+      onSubmitEditing={() => confirmPasswordRef.current?.focus()}
     />,
     <InputField
       key="confirmPassword"
+      ref={confirmPasswordRef}
       label="Confirm Password"
       placeholder="Confirm your password"
+      autoComplete="new-password"
+      autoCapitalize="none"
+      textContentType="newPassword"
       secureTextEntry
-      autoComplete="password"
       icon={EyeIcon}
       altIcon={EyeSlashIcon}
       value={form.confirmPassword}
       onChangeText={(value) => updateForm("confirmPassword", value)}
+      returnKeyType="done"
+      onSubmitEditing={() => {
+        Keyboard.dismiss();
+        onSignUpPress();
+      }}
     />,
     <CustomButton
       key="signupBtn"

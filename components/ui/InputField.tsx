@@ -21,6 +21,12 @@ const InputField = ({
   altIcon: AltIcon,
   iconStyle,
   forgotPassword,
+  forwardedRef,
+  returnKeyType = "done",
+  onSubmitEditing,
+  autoComplete,
+  autoCapitalize,
+  textContentType,
   ...props
 }) => {
   const { isDark } = useContext(ThemeContext);
@@ -50,8 +56,14 @@ const InputField = ({
             className={`relative bg-white dark:bg-gray-800 ${containerStyle}`}
           >
             <TextInput
+              ref={forwardedRef}
               className={`p-3 font-PSSemiB text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-600 focus:border-primary-500 rounded-sm ${Icon ? "pr-12" : ""} ${inputStyle}`}
               secureTextEntry={secureTextEntry ? hidePassword : false}
+              returnKeyType={returnKeyType}
+              onSubmitEditing={onSubmitEditing}
+              autoComplete={autoComplete}
+              autoCapitalize={autoCapitalize}
+              textContentType={textContentType}
               {...props}
             />
             {Icon && !secureTextEntry && (

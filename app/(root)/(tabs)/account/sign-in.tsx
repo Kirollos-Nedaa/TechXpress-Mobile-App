@@ -1,5 +1,5 @@
-import { FlatList, Text, View } from "react-native";
-import { useEffect, useState } from "react";
+import { FlatList, Keyboard, Text, View } from "react-native";
+import { useEffect, useState, useRef } from "react";
 import { ArrowRightIcon, EyeIcon, EyeSlashIcon } from "phosphor-react-native";
 import InputField from "@/components/ui/InputField";
 import CustomButton from "@/components/ui/customButton";
@@ -17,6 +17,9 @@ const SignIn = () => {
     email: "",
     password: "",
   });
+
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
 
   const [loading, setLoading] = useState(false);
 
@@ -96,27 +99,29 @@ const SignIn = () => {
   // Items to render inside FlatList
   const formFields = [
     <InputField
-      key="email"
+      ref={emailRef}
       label="Email"
       placeholder="Enter your email"
       keyboardType="email-address"
       autoCapitalize="none"
-      autoComplete="email"
       value={form.email}
       onChangeText={(value) => updateForm("email", value)}
+      returnKeyType="next"
+      onSubmitEditing={() => passwordRef.current?.focus()}
     />,
     <InputField
-      key="password"
+      ref={passwordRef}
       label="Password"
       placeholder="Enter your password"
       secureTextEntry
-      autoComplete="password"
       icon={EyeIcon}
       altIcon={EyeSlashIcon}
       value={form.password}
       onChangeText={(value) => updateForm("password", value)}
-      forgotPassword={{
-        onPress: handelFrogotPassword,
+      returnKeyType="done"
+      onSubmitEditing={() => {
+        Keyboard.dismiss();
+        onSignInPress();
       }}
     />,
     <CustomButton
