@@ -33,8 +33,10 @@ const CustomButton = ({
         return "bg-danger-500";
       case "default":
         return "bg-white dark:bg-gray-900";
+      case "plank":
+        return "";
       default:
-        return "bg-transparent border border-gray-200 dark:border-gray-600";
+        return "border border-gray-400 dark:border-gray-600";
     }
   };
 
@@ -72,7 +74,7 @@ const CustomButton = ({
       {...props}
     >
       {renderIcon(IconLeft)}
-      <Text className={`text-lg font-PSBold ${TextVatiant}`}>{Title}</Text>
+      <Text className={`text-lg ${TextVatiant}`}>{Title}</Text>
       {renderIcon(IconRight)}
     </TouchableOpacity>
   );

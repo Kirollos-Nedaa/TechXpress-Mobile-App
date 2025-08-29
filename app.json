@@ -8,9 +8,15 @@
     "scheme": "techxpress",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/images/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#11113D"
+    },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.keronedaa.TechXpress"
+      "bundleIdentifier": "com.keronedaa.TechXpress",
+      "icon": "./assets/images/icon.png"
     },
     "android": {
       "adaptiveIcon": {
@@ -27,16 +33,9 @@
     },
     "plugins": [
       "expo-router",
-      [
-        "expo-splash-screen",
-        {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 1024,
-          "resizeMode": "contain",
-          "backgroundColor": "#11113D"
-        }
-      ]
+      "expo-splash-screen"
     ],
+    "assetBundlePatterns": ["**/*"],
     "experiments": {
       "typedRoutes": true
     },
@@ -44,7 +43,8 @@
       "router": {},
       "eas": {
         "projectId": "98402716-73f2-4caf-b755-7ee47d7a8d39"
-      }
+      },
+      "apiBaseUrl": "http://techxpress.runasp.net/api/"
     }
   }
 }

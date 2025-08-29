@@ -17,7 +17,6 @@ import OAuth from "@/components/ui/OAuth";
 import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
 import * as SecureStore from "expo-secure-store";
-import API, { saveToken } from "@/services/api";
 import { Link, router } from "expo-router";
 import DropdownField from "@/components/ui/DropdownField";
 import DateOfBirthPicker from "@/components/ui/CalendarInputField";
@@ -218,7 +217,7 @@ const SignUp = () => {
       Title={loading ? "Signing Up..." : "Sign Up"}
       disabled={loading}
       BgVariant={loading ? "disabled" : "primary"}
-      TextVatiant="text-white uppercase"
+      TextVatiant="font-PSBold text-white uppercase"
       ClassName="gap-2 py-3 mt-6"
       IconRight={!loading ? ArrowRightIcon : null}
     />,

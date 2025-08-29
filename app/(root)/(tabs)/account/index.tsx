@@ -9,29 +9,40 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as SecureStore from "expo-secure-store";
 import { useRouter } from "expo-router";
+import { useDispatch } from "react-redux";
 import { ThemeContext } from "@react-navigation/native";
 import UserProfileCards from "@/components/UserProfileCards";
 import CustomButton from "@/components/ui/customButton";
 import CustomProfileSection from "@/components/ui/CustomProfileSection";
 import { PowerIcon } from "phosphor-react-native";
+import { useGetProfileQuery, userApi } from "@/services/userApi";
+import Constants from "expo-constants";
 
 const AccountIndex = () => {
-  const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const router = useRouter();
+  const dispatch = useDispatch();
   const isDark = useContext(ThemeContext);
+  const version = Constants.expoConfig?.version;
 
-  const loadUser = async () => {
+  // ✅ RTK Query: fetch profile
+  const {
+    data: fullProfile,
+    refetch,
+    isLoading: profileLoading,
+  } = useGetProfileQuery();
+
+  // Check if token exists, otherwise redirect
+  const checkToken = async () => {
     try {
-      const storedUser = await SecureStore.getItemAsync("user");
-      if (storedUser) {
-        setUser(JSON.parse(storedUser));
-      } else {
+      const storedToken = await SecureStore.getItemAsync("token");
+      if (!storedToken) {
         router.replace("/(root)/(tabs)/account/sign-in");
+        return;
       }
     } catch (error) {
-      console.error("❌ Error loading user:", error);
+      console.error("❌ Error checking token:", error);
       router.replace("/(root)/(tabs)/account/sign-in");
     } finally {
       setLoading(false);
@@ -40,45 +51,31 @@ const AccountIndex = () => {
   };
 
   useEffect(() => {
-    loadUser();
+    checkToken();
   }, []);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    loadUser();
-  }, []);
-
-  const handleEditProfile = () => {
-    console.log("Edit Profile Pressed");
-  };
-
-  const handleOrdersPress = () => {
-    console.log("Orders Pressed");
-  };
-
-  const handleReturnsPress = () => {
-    console.log("Returns Pressed");
-  };
-
-  const handleCreditsPress = () => {
-    console.log("Credits Pressed");
-  };
-
-  const handleWishlistPress = () => {
-    console.log("Wishlist Pressed");
-  };
-
-  const handleTheme = () => {
-    router.push("/(root)/(tabs)/account/account_tabs/theme");
-  };
+    refetch().finally(() => setRefreshing(false));
+  }, [refetch]);
 
   const handleLogout = async () => {
-    await SecureStore.deleteItemAsync("user");
-    await SecureStore.deleteItemAsync("refreshToken");
+    await SecureStore.deleteItemAsync("token");
+    dispatch(userApi.util.resetApiState());
     router.replace("/(root)/(tabs)/account/sign-in");
   };
 
-  if (loading) {
+  const handleEditProfile = () => console.log("Edit Profile Pressed");
+  const handleOrdersPress = () => console.log("Orders Pressed");
+  const handleReturnsPress = () => console.log("Returns Pressed");
+  const handleCreditsPress = () => console.log("Credits Pressed");
+  const handleWishlistPress = () => console.log("Wishlist Pressed");
+  const handleAddress = () =>
+    router.push("/(root)/(tabs)/account/account_tabs/address");
+  const handleTheme = () =>
+    router.push("/(root)/(tabs)/account/account_tabs/theme");
+
+  if (loading || profileLoading) {
     return (
       <SafeAreaView className="flex-1 items-center justify-center bg-white dark:bg-gray-900">
         <ActivityIndicator size="large" color="#FA8232" />
@@ -101,24 +98,22 @@ const AccountIndex = () => {
           />
         }
       >
-        {user && (
-          <>
-            <UserProfileCards
-              name={user.name}
-              email={user.email}
-              profilePicture={
-                "https://avatars.githubusercontent.com/u/181299013?v=4"
-              }
-              editPress={handleEditProfile}
-              ordersPress={handleOrdersPress}
-              returnsPress={handleReturnsPress}
-              returnsCount={1}
-              creditsPress={handleCreditsPress}
-              credits={0}
-              wishlistPress={handleWishlistPress}
-              wishlistCount={2}
-            />
-          </>
+        {fullProfile && (
+          <UserProfileCards
+            name={fullProfile?.name || "user.name"}
+            email={fullProfile?.email || "user.email"}
+            profilePicture={
+              "https://avatars.githubusercontent.com/u/181299013?v=4"
+            }
+            editPress={handleEditProfile}
+            ordersPress={handleOrdersPress}
+            returnsPress={handleReturnsPress}
+            returnsCount={1}
+            creditsPress={handleCreditsPress}
+            credits={0}
+            wishlistPress={handleWishlistPress}
+            wishlistCount={fullProfile?.wishlistCount ?? 0}
+          />
         )}
 
         <CustomProfileSection
@@ -127,7 +122,7 @@ const AccountIndex = () => {
             {
               label: "Addresses",
               iconName: "MapTrifold",
-              onPress: handleOrdersPress,
+              onPress: handleAddress,
             },
             {
               label: "Payment",
@@ -150,11 +145,7 @@ const AccountIndex = () => {
         <CustomProfileSection
           title={"Settings"}
           tabs={[
-            {
-              label: "Theme",
-              iconName: "Palette",
-              onPress: handleTheme,
-            },
+            { label: "Theme", iconName: "Palette", onPress: handleTheme },
             {
               label: "Notifications",
               iconName: "Bell",
@@ -181,14 +172,10 @@ const AccountIndex = () => {
         />
 
         <View className="flex flex-col items-center">
-          <Text
-            className={`text-center text-sm text-gray-200 dark:text-gray-600 mt-4 mb-2`}
-          >
-            App Version 1.0.0
+          <Text className="text-center text-sm text-gray-200 dark:text-gray-600 mt-4 mb-2">
+            App Version {version}
           </Text>
-          <Text
-            className={`text-center text-sm text-gray-300 dark:text-gray-500 mb-6`}
-          >
+          <Text className="text-center text-sm text-gray-300 dark:text-gray-500 mb-6">
             © 2025 TechXpress. All rights reserved.
           </Text>
         </View>

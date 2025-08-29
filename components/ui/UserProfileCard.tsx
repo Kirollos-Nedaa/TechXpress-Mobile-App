@@ -33,14 +33,11 @@ const UserProfileCard = ({ name, email, profilePicture, editPress }) => {
             {email}
           </Text>
         </View>
-        <TouchableOpacity
-          className="ml-auto rounded-full px-3 py-1 bg-gray-50 dark:bg-gray-800"
-          onPress={editPress}
-        >
+        <View className="ml-auto rounded-full px-3 py-1 bg-gray-50 dark:bg-gray-800">
           <Text className="text-gray-900 dark:text-gray-100 font-PSBold">
             Edit
           </Text>
-        </TouchableOpacity>
+        </View>
       </View>
     </TouchableWithoutFeedback>
   );

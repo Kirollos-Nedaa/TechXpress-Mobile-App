@@ -33,6 +33,7 @@ const Layout = () => {
       }}
     >
       <Stack.Screen name="theme" options={{ title: "Theme" }} />
+      <Stack.Screen name="address" options={{ title: "Addresses" }} />
     </Stack>
   );
 };

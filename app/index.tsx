@@ -17,7 +17,6 @@ export default function Index() {
       return;
     }
 
-    // Fresh app load, show splash for 3 seconds
     const timer = setTimeout(() => {
       setShowSplash(false);
       router.replace("/home");

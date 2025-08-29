@@ -18,7 +18,7 @@ const OAuth = ({ onPressGoogle, onPressApple, onPressBiometric }) => {
         onPress={onPressGoogle}
         Title="Login with Google"
         BgVariant
-        TextVatiant="text-gray-500 dark:text-gray-300"
+        TextVatiant="font-PSBold text-gray-500 dark:text-gray-300"
         ClassName="gap-2 py-3 mb-3"
         IconLeft={GoogleIcon}
         LeftStyleIcon={true}
@@ -30,7 +30,7 @@ const OAuth = ({ onPressGoogle, onPressApple, onPressBiometric }) => {
           onPress={onPressApple}
           Title="Login with Apple"
           BgVariant
-          TextVatiant="text-gray-500 dark:text-gray-300"
+          TextVatiant="font-PSBold text-gray-500 dark:text-gray-300"
           ClassName="gap-2 py-3 my-3 relative"
           IconLeft={Ionicons}
           IconName="logo-apple"
@@ -45,7 +45,7 @@ const OAuth = ({ onPressGoogle, onPressApple, onPressBiometric }) => {
         onPress={onPressBiometric}
         Title="Login with Biometric"
         BgVariant
-        TextVatiant="text-gray-500 dark:text-gray-300"
+        TextVatiant="font-PSBold text-gray-500 dark:text-gray-300"
         ClassName="gap-2 py-3 my-3 relative"
         IconLeft={Ionicons}
         IconName="finger-print"
