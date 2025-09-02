@@ -1,22 +1,17 @@
 import React, { useEffect, useState, useCallback, useContext } from "react";
-import {
-  ActivityIndicator,
-  ScrollView,
-  RefreshControl,
-  Text,
-  View,
-} from "react-native";
+import { ScrollView, RefreshControl, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as SecureStore from "expo-secure-store";
 import { useRouter } from "expo-router";
 import { useDispatch } from "react-redux";
-import { ThemeContext } from "@react-navigation/native";
+import { PowerIcon } from "phosphor-react-native";
+import Constants from "expo-constants";
 import UserProfileCards from "@/components/UserProfileCards";
 import CustomButton from "@/components/ui/customButton";
 import CustomProfileSection from "@/components/ui/CustomProfileSection";
-import { PowerIcon } from "phosphor-react-native";
+import SvgLoader from "@/components/ui/svgLoader";
+import { ThemeContext } from "@/context/themeContext";
 import { useGetProfileQuery, userApi } from "@/services/userApi";
-import Constants from "expo-constants";
 
 const AccountIndex = () => {
   const [loading, setLoading] = useState(true);
@@ -77,8 +72,10 @@ const AccountIndex = () => {
 
   if (loading || profileLoading) {
     return (
-      <SafeAreaView className="flex-1 items-center justify-center bg-white dark:bg-gray-900">
-        <ActivityIndicator size="large" color="#FA8232" />
+      <SafeAreaView className="flex-1 bg-white dark:bg-gray-900">
+        <View className="flex-1 items-center justify-center">
+          <SvgLoader />
+        </View>
       </SafeAreaView>
     );
   }

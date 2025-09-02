@@ -6,12 +6,12 @@ import {
   SafeAreaView,
   ScrollView,
   TouchableOpacity,
-  ActivityIndicator,
 } from "react-native";
 import {
   PencilIcon,
   TrashIcon,
   MapPinSimpleAreaIcon,
+  SmileyXEyesIcon,
 } from "phosphor-react-native";
 import {
   useGetAddressesQuery,
@@ -20,6 +20,7 @@ import {
 import { useContext, useState, useEffect } from "react";
 import { ThemeContext } from "@/context/themeContext";
 import { router } from "expo-router";
+import SvgLoader from "@/components/ui/svgLoader";
 
 const Address = () => {
   const { width } = useWindowDimensions();
@@ -77,19 +78,29 @@ const Address = () => {
           TextVatiant="font-PSMed text-primary-500"
           onPress={() =>
             router.push(
-              "/(root)/(tabs)/account/account_tabs/address/addNewAddress"
+              "/(root)/(tabs)/account/account_tabs/address/addNewAddress/step-1"
             )
           }
         />
 
         {/* Loading & Error */}
         {isLoading && (
-          <ActivityIndicator size="large" color="#11113D" className="mt-10" />
+          <SafeAreaView className="flex-1 bg-white dark:bg-gray-900">
+            <View className="flex-1 items-center justify-center">
+              <SvgLoader />
+            </View>
+          </SafeAreaView>
         )}
         {isError && (
-          <Text className="text-red-500 font-PSMed mt-10">
-            Failed to load addresses
-          </Text>
+          <View className="flex items-center justify-center">
+            <SmileyXEyesIcon size={160} color="#EE5858" weight="fill" />
+            <Text className="text-xl font-PSBold text-danger-500 mt-2">
+              Oops! Something went wrong
+            </Text>
+            <Text className="mt-2 text-center text-base font-PSMed text-gray-600 dark:text-gray-300">
+              Failed to load addresses. Please try again later.
+            </Text>
+          </View>
         )}
 
         {/* Address cards */}

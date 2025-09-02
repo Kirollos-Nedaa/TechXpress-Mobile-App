@@ -16,6 +16,7 @@ WebBrowser.maybeCompleteAuthSession();
 
 const SignIn = () => {
   const [form, setForm] = useState({ email: "", password: "" });
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const dispatch = useDispatch();
@@ -43,39 +44,25 @@ const SignIn = () => {
   };
 
   const onSignInPress = async () => {
+    setErrorMessage(null);
     try {
       const res = await login({
         email: form.email,
         password: form.password,
       }).unwrap();
 
-      // ✅ Save tokens separately
-      dispatch(
-        setCredentials({
-          token: res.token,
-          refreshToken: res.refreshToken,
-        })
-      );
-
-      // ✅ Save user separately
+      // Save tokens
       dispatch(
         setCredentials({ token: res.token, refreshToken: res.refreshToken })
       );
-
-      // ✅ Persist tokens & user
       await SecureStore.setItemAsync("token", res.token);
       await SecureStore.setItemAsync("refreshToken", res.refreshToken);
 
+      // Redirect
       router.replace("/(root)/(tabs)/account");
-      console.log("✅ Login successful:");
     } catch (err: any) {
-      if (err?.data) {
-        console.error("❌ Login failed:", err.data);
-      } else if (err?.error) {
-        console.error("❌ Login failed:", err.error);
-      } else {
-        console.error("❌ Login failed:", err);
-      }
+      const msg: string = err?.data?.message || err?.error;
+      setErrorMessage(msg);
     }
   };
 
@@ -149,6 +136,13 @@ const SignIn = () => {
         onSignInPress();
       }}
     />,
+    errorMessage && (
+      <View className="bg-danger-100 border border-danger-500 dark:bg-danger-800 px-4 py-3 rounded mt-3">
+        <Text className="text-danger-700 dark:text-danger-100 font-PSRegular">
+          {errorMessage}
+        </Text>
+      </View>
+    ),
     <CustomButton
       key="signinBtn"
       onPress={onSignInPress}
